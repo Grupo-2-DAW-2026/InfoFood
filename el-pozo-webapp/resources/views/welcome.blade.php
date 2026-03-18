@@ -18,7 +18,7 @@
                 <i class="bi bi-qr-code-scan"></i> ESCANEAR PRODUCTO
             </a>
             <a href="{{ route('productos.catalogo') }}" class="btn btn-danger btn-lg px-5 shadow">
-                <i class="bi bi-view-catalog"></i> VER CATALOGO
+                <i class="bi bi-view-catalog"></i> VER CATÁLOGO
             </a>
         </div>
     </div>
