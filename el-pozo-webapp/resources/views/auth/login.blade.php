@@ -1,3 +1,6 @@
+<head>
+    <link rel="icon" type="image/png" href="https://dapatloker.com/wp-content/uploads/2025/12/Indofood-Sukses-Makmur-Tbk-90x90.png">
+</head>
 <x-guest-layout>
     <h3 class="fw-bold text-center mb-4">Acceso Usuarios</h3>
 
