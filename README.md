@@ -11,4 +11,4 @@ Proyecto de gestión de productos con trazabilidad completa, información nutric
 
 ## Credenciales de prueba en InfoFood:
 - **Admin:** alvarogaleraboluda777@gmail.com / Alvarogb45+
-- **Usuario:** fran.ase@gmail.com / Alvarogb45+
+- **Usuario:** franase@gmail.com / Alvarogb45+
