@@ -28,26 +28,23 @@
 <div class="card-body p-4">
     @auth
         <h4 class="fw-bold">Bienvenido, {{ Auth::user()->name }}</h4>
-        
         <p class="text-muted">
             Has iniciado sesión como 
-            <strong>
-                @if(Auth::user()->role == 'admin')
-                    ADMIN
-                @else
-                    USUARIO
-                @endif
-            </strong>.
+            <strong>{{ Auth::user()->role == 'admin' ? 'ADMINISTRADOR' : 'USUARIO' }}</strong>.
         </p>
+
+        <a href="{{ route('productos.crear') }}" class="btn btn-dark w-100 mb-2 shadow-sm">
+            <i class="bi bi-plus-circle me-1"></i> Añadir Nuevo Producto
+        </a>
+
         @if(Auth::user()->role == 'admin')
             <div class="alert alert-warning border-0 small">
-                Tienes permisos para gestionar el catálogo.
+                Tienes permisos de administrador para gestionar todo el sistema.
             </div>
-            <a href="{{ route('productos.crear') }}" class="btn btn-dark w-100 mb-2">Añadir Nuevo Producto</a>
         @endif      
     @else
         <h4 class="fw-bold text-center mb-4">Acceso Usuarios</h4>
-        <p class="text-muted small text-center">Si eres usuario, accede para consultar/modificar datos.</p>
+        <p class="text-muted small text-center">Inicia sesión para registrar productos o consultar tu historial.</p>
         <div class="d-grid gap-2">
             <a href="{{ route('login') }}" class="btn btn-danger">Iniciar Sesión</a>
             <a href="{{ route('register') }}" class="btn btn-light border text-muted">Solicitar Registro</a>
