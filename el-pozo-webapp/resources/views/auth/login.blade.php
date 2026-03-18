@@ -17,11 +17,6 @@
             <input type="password" name="password" class="form-control form-control-lg" required>
         </div>
 
-        <div class="form-check mb-4">
-            <input class="form-check-input" type="checkbox" name="remember" id="remember">
-            <label class="form-check-label small" for="remember">Recordar sesión</label>
-        </div>
-
         <div class="d-grid gap-2">
             <button type="submit" class="btn btn-danger btn-lg shadow-sm">Entrar al Sistema</button>
             <a href="{{ route('register') }}" class="btn btn-link text-muted text-decoration-none small">¿No tienes cuenta? Regístrate</a>

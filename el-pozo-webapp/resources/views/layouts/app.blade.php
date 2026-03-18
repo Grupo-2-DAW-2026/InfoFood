@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InfoFood</title>
+    <title>InfoFood @yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .navbar-brand img { height: 40px; }
@@ -18,14 +18,17 @@
             
             <div class="ms-auto">
                 @if (Route::has('login'))
-                    <div>
+                    <div class="d-flex align-items-center">
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="btn btn-outline-light btn-sm">Panel Control</a>
+                            <a href="{{ url('/dashboard') }}" class="btn btn-outline-light btn-sm me-2">Panel Control</a>
+                            
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="btn btn-light btn-sm">
+                                    Cerrar Sesión
+                                </button>
+                            </form>
                         @else
-                            <a href="{{ route('login') }}" class="text-white me-3 text-decoration-none">Entrar</a>
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="btn btn-light btn-sm">Registro</a>
-                            @endif
                         @endauth
                     </div>
                 @endif
