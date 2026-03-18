@@ -22,4 +22,12 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/catalogo', [ProductoController::class, 'index'])->name('productos.catalogo');
 
+Route::get('/escaner', function () {
+    return view('escaner');
+})->name('escaner');
+
+Route::get('/buscar-producto/{ean}', [ProductoController::class, 'buscarPorEan']);
+
+Route::get('/productos/{id}', [ProductoController::class, 'show'])->name('productos.show');
+
 require __DIR__.'/auth.php';

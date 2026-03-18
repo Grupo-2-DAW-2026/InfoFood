@@ -14,7 +14,7 @@
         <p class="lead text-secondary">Transparencia desde la granja hasta tu mesa. Conoce cada detalle de lo que consumes.</p>
         
         <div class="mt-4 d-grid d-md-block gap-2">
-            <a href="#" class="btn btn-danger btn-lg px-5 shadow">
+            <a href="{{ route('escaner') }}" class="btn btn-danger btn-lg px-5 shadow">
                 <i class="bi bi-qr-code-scan"></i> ESCANEAR PRODUCTO
             </a>
             <a href="{{ route('productos.catalogo') }}" class="btn btn-danger btn-lg px-5 shadow">

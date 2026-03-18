@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="card-footer bg-white border-0 pb-3 d-grid">
-                        <a href="#" class="btn btn-outline-danger btn-sm rounded-pill">Ver Ficha Completa</a>
+                        <a href="{{ route('productos.show', $producto->id) }}" class="btn btn-outline-danger btn-sm rounded-pill">Ver Ficha Completa</a>
                     </div>
                 </div>
             </div>

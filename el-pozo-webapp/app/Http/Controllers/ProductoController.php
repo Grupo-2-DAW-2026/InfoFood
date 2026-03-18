@@ -68,4 +68,30 @@ class ProductoController extends Controller
         $productos = Producto::with(['nutricion', 'alergenos'])->get();
         return view('productos.catalogo', compact('productos'));
     }
+
+    public function buscarPorEan($ean)
+    {
+    $producto = Producto::where('ean_13', $ean)->first();
+
+    if ($producto) {
+        // Si lo encuentra, lo mandamos a su ficha (que haremos luego)
+        return response()->json(['url' => route('productos.show', $producto->id)]);
+    }
+
+    
+    return response()->json(['error' => 'Producto no encontrado'], 404);
+    }
+
+    public function show($id)
+    {
+    // Usamos exactamente los nombres que definiste en tu modelo Producto
+    $producto = \App\Models\Producto::with([
+        'ingredientes', 
+        'nutricion',     // Antes tenías 'valoresNutricionales'
+        'trazabilidad',  // Antes tenías 'trazabilidadPasos'
+        'alergenos'
+    ])->findOrFail($id);
+
+    return view('productos.show', compact('producto'));
+    }
 }
