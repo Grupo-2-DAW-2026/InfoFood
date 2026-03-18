@@ -9,9 +9,7 @@
             <h2 class="fw-bold text-dark">Catálogo <span class="text-danger">InfoFood</span></h2>
             <p class="text-muted">Explora la trazabilidad de nuestros productos.</p>
         </div>
-        @if(Auth::user() && Auth::user()->role == 'admin')
             <a href="{{ route('productos.crear') }}" class="btn btn-danger shadow-sm">+ Añadir Producto</a>
-        @endif
     </div>
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
