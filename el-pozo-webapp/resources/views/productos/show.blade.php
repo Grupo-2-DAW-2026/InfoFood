@@ -184,33 +184,44 @@
                     @endphp
 
                     @forelse($pasos as $paso)
-                        <div class="d-flex mb-4 position-relative">
-                            @if(!$loop->last)
-                                <div class="position-absolute border-start border-2 border-danger" style="top: 35px; left: 17px; height: calc(100% - 10px); z-index: 1;"></div>
+                    <div class="d-flex mb-4 position-relative">
+                        @if(!$loop->last)
+                            <div class="position-absolute border-start border-2 border-danger" style="top: 35px; left: 17px; height: calc(100% - 10px); z-index: 1;"></div>
+                        @endif
+                        
+                        <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 35px; height: 35px; z-index: 2; flex-shrink: 0;">
+                            {{ $paso->orden }}
+                        </div>
+                        
+                        <div class="ms-3 bg-light p-3 rounded-3 border w-100 shadow-xs position-relative">
+                            {{-- BOTÓN ELIMINAR PASO (Solo para dueños/admin) --}}
+                            @if(Auth::user() && (Auth::user()->role == 'admin' || Auth::user()->id == $producto->user_id))
+                                <form action="{{ route('trazabilidad.destroy', $paso->id) }}" method="POST" class="position-absolute" style="top: 10px; right: 10px;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-link text-muted p-0 hover-danger" onclick="return confirm('¿Borrar este paso?')">
+                                        <i class="bi bi-x-circle-fill"></i>
+                                    </button>
+                                </form>
                             @endif
-                            
-                            <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 35px; height: 35px; z-index: 2; flex-shrink: 0;">
-                                {{ $paso->orden }}
+
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h6 class="fw-bold m-0 text-dark pe-4">{{ $paso->titulo }}</h6>
+                                @if($paso->fecha_proceso)
+                                    <span class="badge bg-white text-muted border small">
+                                        <i class="bi bi-calendar3 me-1"></i>
+                                        {{ \Carbon\Carbon::parse($paso->fecha_proceso)->format('d/m/Y') }}
+                                    </span>
+                                @endif
                             </div>
-                            
-                            <div class="ms-3 bg-light p-3 rounded-3 border w-100 shadow-xs">
-                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <h6 class="fw-bold m-0 text-dark">{{ $paso->titulo }}</h6>
-                                    @if($paso->fecha_proceso)
-                                        <span class="badge bg-white text-muted border small">
-                                            <i class="bi bi-calendar3 me-1"></i>
-                                            {{ \Carbon\Carbon::parse($paso->fecha_proceso)->format('d/m/Y') }}
-                                        </span>
-                                    @endif
-                                </div>
-                                <p class="text-muted small m-0 lh-base">{{ $paso->descripcion }}</p>
-                            </div>
+                            <p class="text-muted small m-0 lh-base">{{ $paso->descripcion }}</p>
                         </div>
-                    @empty
-                        <div class="text-center py-3 text-muted">
-                            <p>No hay pasos de trazabilidad registrados.</p>
-                        </div>
-                    @endforelse
+                    </div>
+                @empty
+                    <div class="text-center py-3 text-muted">
+                        <p>No hay pasos de trazabilidad registrados.</p>
+                    </div>
+                @endforelse
                 </div>
             </div>
         </div>

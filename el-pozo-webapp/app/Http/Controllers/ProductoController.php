@@ -40,11 +40,14 @@ class ProductoController extends Controller
         ]);
 
         // 4. Guardar Trazabilidad (Tabla trazabilidad_pasos)
+        $lote = $request->lote ?? 'Sin lote';
+        $origen = $request->origen_materia_prima ?? 'No especificado';
+
         $producto->trazabilidad()->create([
             'orden'         => 1,
             'titulo'        => 'Origen y Envasado',
-            'descripcion'   => "Producido en: {$request->origen_materia_prima}. Lote: {$request->lote}",
-            'fecha_proceso' => $request->fecha_envasado,
+            'descripcion'   => "Producido en: {$origen}. Lote: {$lote}",
+            'fecha_proceso' => $request->fecha_envasado ?? now(),
         ]);
 
         // 5. Relacionar Alérgenos (Tabla pivote alergeno_producto)
@@ -57,7 +60,7 @@ class ProductoController extends Controller
             }
         }
 
-        return redirect('/')->with('success', 'Producto registrado correctamente en InfoFood');
+        return redirect()->route('productos.catalogo')->with('info', '¡Producto creado con éxito! Ya puedes verlo en tu catálogo.');    
     }
 
     public function index()
@@ -148,21 +151,47 @@ class ProductoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $producto = Producto::where('user_id', auth()->id())->findOrFail($id);
-        
-        // Actualizar datos básicos
-        $producto->update($request->only(['nombre', 'ean_13', 'imagen_url']));
+    $user = auth()->user();
 
-        // Actualizar Nutrición
+    // --- PUNTO CLAVE: Lógica de búsqueda con permisos ---
+    
+    if ($user->role == 'admin') {
+        // 1. Si eres Admin, búscalo globalmente (cualquier dueño)
+        $producto = Producto::findOrFail($id);
+    } else {
+        // 2. Si eres Usuario, búscalo SOLO si te pertenece
+        $producto = Producto::where('user_id', $user->id)->findOrFail($id);
+    }
+    
+    // Si llega aquí, significa que se ha encontrado el producto con los permisos correctos.
+    // Si no, failOrFail() habrá lanzado el 404 (para el usuario que no es dueño).
+
+    // --- Resto de la actualización (el código que ya tenías) ---
+    
+    // Actualizar datos básicos
+    $producto->update($request->only(['nombre', 'ean_13', 'imagen_url']));
+
+    // Actualizar Nutrición (aseguramos que exista la relación, o el update fallará si es nula en DB)
+    if($producto->nutricion) {
         $producto->nutricion()->update($request->only(['kcal', 'grasas_totales', 'grasas_saturadas', 'hidratos', 'azucares', 'proteinas', 'sal']));
+    }
 
-        // Actualizar Ingredientes
+    // Actualizar Ingredientes (aseguramos que exista)
+    if($producto->ingredientes) {
         $producto->ingredientes()->update(['nombre' => $request->ingredientes]);
+    }
 
-        // Actualizar Alérgenos
-        $producto->alergenos()->sync($request->alergenos_ids); // Asumiendo que mandas IDs de alérgenos
+    if ($request->has('alergenos')) {
+        // Buscamos los IDs de esos nombres de alérgenos para poder sincronizar
+        $alergenosIds = \App\Models\Alergeno::whereIn('nombre', $request->alergenos)->pluck('id');
+        $producto->alergenos()->sync($alergenosIds);
+    } else {
+        // Si no mandó ningún checkbox, vaciamos la lista de alérgenos del producto
+        $producto->alergenos()->detach();
+    }
 
-        return redirect()->route('productos.catalogo')->with('success', 'Producto actualizado');
+    // Redirigir al catálogo con un mensaje de éxito azul (info)
+    return redirect()->route('productos.catalogo')->with('info', '¡Producto actualizado correctamente!');
     }
 
     public function destroy($id)

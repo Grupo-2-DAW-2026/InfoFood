@@ -68,15 +68,15 @@
                     <div class="card-body p-4 row">
                         <div class="col-md-4 mb-3">
                             <label class="form-label small fw-bold text-muted">LOTE</label>
-                            <input type="text" name="lote" class="form-control border-2 shadow-sm" placeholder="L-2309AA" required>
+                            <input type="text" name="lote" class="form-control border-2 shadow-sm" placeholder="L-2309AA">
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label small fw-bold text-muted">ORIGEN MATERIA PRIMA</label>
-                            <input type="text" name="origen_materia_prima" class="form-control border-2 shadow-sm" placeholder="Granjas El Pozo (Murcia)" required>
+                            <input type="text" name="origen_materia_prima" class="form-control border-2 shadow-sm" placeholder="Granjas El Pozo (Murcia)">
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label small fw-bold text-muted">FECHA ENVASADO</label>
-                            <input type="date" name="fecha_envasado" class="form-control border-2 shadow-sm" required>
+                            <input type="date" name="fecha_envasado" class="form-control border-2 shadow-sm">
                         </div>
                     </div>
                 </div>

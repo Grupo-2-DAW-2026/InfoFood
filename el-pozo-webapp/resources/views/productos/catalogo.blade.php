@@ -74,5 +74,13 @@
             <h4 class="text-muted">No hay productos en el catálogo todavía.</h4>
         </div>
     @endif
+
+    @if(session('info'))
+    <div class="alert alert-info border-0 shadow-sm rounded-4 mb-4">
+        <i class="bi bi-info-circle-fill me-2"></i>
+        {{ session('info') }}
+    </div>
+    @endif
+    
 </div>
 @endsection
