@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
-    protected $fillable = ['nombre', 'ean_13', 'imagen_url'];
+    protected $fillable = ['nombre', 'ean_13', 'imagen_url', "user_id"];
 
     public function nutricion()
     {
@@ -26,5 +26,10 @@ class Producto extends Model
     public function alergenos()
     {
         return $this->belongsToMany(Alergeno::class, 'alergeno_producto');
+    }
+
+    public function user() 
+    {
+    return $this->belongsTo(User::class);
     }
 }
