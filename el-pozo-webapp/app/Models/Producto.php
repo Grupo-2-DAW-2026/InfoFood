@@ -15,12 +15,12 @@ class Producto extends Model
 
     public function ingredientes()
     {
-        return $this->hasMany(Ingrediente::class, 'producto_id');
+    return $this->hasOne(Ingrediente::class, 'producto_id');
     }
 
     public function trazabilidad()
     {
-        return $this->hasMany(TrazabilidadPaso::class, 'producto_id')->orderBy('orden', 'asc');
+    return $this->hasMany(TrazabilidadPaso::class, 'producto_id');
     }
 
     public function alergenos()
