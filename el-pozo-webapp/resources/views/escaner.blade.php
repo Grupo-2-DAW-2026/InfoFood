@@ -78,29 +78,35 @@
     }
 
     function ejecutarBusqueda(ean) {
-        const resDiv = document.getElementById('resultado');
-        const errDiv = document.getElementById('contenedor_error');
-        
-        if(resDiv) {
-            resDiv.style.display = 'block';
-            resDiv.innerText = "Buscando código: " + ean;
-        }
-        if(errDiv) errDiv.style.display = 'none';
+    const resDiv = document.getElementById('resultado');
+    const errDiv = document.getElementById('contenedor_error');
+    
+    if(resDiv) {
+        resDiv.style.display = 'block';
+        resDiv.innerText = "Buscando código: " + ean;
+    }
+    if(errDiv) errDiv.style.display = 'none';
 
-        fetch(`/buscar-producto/${ean}`)
-            .then(response => {
-                if (!response.ok) throw new Error('No encontrado');
-                return response.json();
-            })
-            .then(data => {
-                if (data.url) {
-                    window.location.href = data.url;
-                }
-            })
-            .catch(err => {
-                if(resDiv) resDiv.style.display = 'none';
-                if(errDiv) errDiv.style.display = 'block';
-            });
+    // Añadimos el header 'Accept: application/json'
+    fetch(`/buscar-producto/${ean}`, {
+        headers: {
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('No encontrado');
+        return response.json();
+    })
+    .then(data => {
+        if (data.url) {
+            window.location.href = data.url; // Ahora sí redirige el navegador
+        }
+    })
+    .catch(err => {
+        if(resDiv) resDiv.style.display = 'none';
+        if(errDiv) errDiv.style.display = 'block';
+    });
     }
 
     let html5QrcodeScanner = new Html5QrcodeScanner(

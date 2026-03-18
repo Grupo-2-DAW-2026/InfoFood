@@ -26,7 +26,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/productos/{id}/edit', [ProductoController::class, 'edit'])->name('productos.edit');
     Route::put('/productos/{id}', [ProductoController::class, 'update'])->name('productos.update');
     Route::post('/trazabilidad', [TrazabilidadController::class, 'store'])->name('trazabilidad.store');
-    Route::resource('productos', ProductoController::class);
     Route::delete('/productos/{id}', [ProductoController::class, 'destroy'])->name('productos.destroy');
 });
 
@@ -35,5 +34,7 @@ Route::get('/catalogo', [ProductoController::class, 'index'])->name('productos.c
 Route::get('/buscar-producto/{ean}', [ProductoController::class, 'buscarPorEan']);
 
 Route::get('/productos/{id}', [ProductoController::class, 'show'])->name('productos.show');
+
+Route::resource('productos', ProductoController::class);
 
 require __DIR__.'/auth.php';

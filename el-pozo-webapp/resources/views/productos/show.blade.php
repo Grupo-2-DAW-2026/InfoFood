@@ -6,9 +6,15 @@
 <div class="container pb-5">
     <div class="d-flex align-items-center justify-content-between mb-4 pt-3">
         <div class="d-flex align-items-center">
-            <a href="{{ route('productos.catalogo') }}" class="btn btn-outline-danger btn-sm me-3 rounded-pill px-3">
-                <i class="bi bi-arrow-left"></i> Catálogo
-            </a>
+            @auth
+                <a href="{{ route('productos.catalogo') }}" class="btn btn-outline-danger btn-sm me-3 rounded-pill px-3">
+                    <i class="bi bi-arrow-left"></i> Catálogo
+                </a>
+            @else
+                <a href="{{ route('welcome') }}" class="btn btn-outline-secondary btn-sm me-3 rounded-pill px-3">
+                    <i class="bi bi-house"></i> Inicio
+                </a>
+            @endauth
             <h2 class="fw-bold m-0 text-dark">Ficha Técnica <span class="text-danger">InfoFood</span></h2>
         </div>
 

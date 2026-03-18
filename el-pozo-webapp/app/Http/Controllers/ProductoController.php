@@ -62,41 +62,59 @@ class ProductoController extends Controller
 
     public function index()
     {
-    if (!auth()->check()) {
-        return redirect()->route('welcome')->with('error', 'Debes iniciar sesión para ver el catálogo.');
-    }
-
+    
     $user = auth()->user();
 
-    // Lógica de visualización:
+    // Si no está logueado, redirigir al login con un mensaje informativo
+    if (!$user) {
+        return redirect()->route('welcome')->with('error', 'Debes iniciar sesión para acceder al catálogo.');
+    }
     if ($user->role == 'admin') {
-        // El ADMIN ve TODOS los productos de todos los usuarios
         $productos = Producto::with(['nutricion', 'alergenos'])->get();
     } else {
-        // El USUARIO NORMAL solo ve los suyos
+        // Traer mis productos O los que he buscado (historial)
         $productos = Producto::with(['nutricion', 'alergenos'])
-                    ->where('user_id', $user->id)
-                    ->get();
+            ->where('user_id', $user->id)
+            ->orWhereHas('usuariosHistorial', function($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+            ->get();
     }
 
     return view('productos.catalogo', compact('productos'));
     }
 
-    public function buscarPorEan($ean)
+   public function buscarPorEan(Request $request, $ean)
     {
-    // Buscamos el producto por su EAN
-    $producto = Producto::where('ean_13', $ean)->first();
+    $eanLimpio = trim($ean);
+    $producto = \App\Models\Producto::where('ean_13', $eanLimpio)->first();
 
     if ($producto) {
-        // Si lo encuentra, redirigimos a la ficha técnica (vista show)
-        return redirect()->route('productos.show', $producto->id);
+        // Registrar historial si está logueado
+        if (auth()->check()) {
+            $user = auth()->user();
+            if ($producto->user_id !== $user->id) {
+                $user->historialBusquedas()->syncWithoutDetaching([$producto->id]);
+            }
+        }
+
+        $url = route('productos.show', $producto->id);
+
+        // SI LA PETICIÓN ES POR FETCH/AJAX (Desde el JS del escáner)
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json(['url' => $url]);
+        }
+
+        // SI ES UNA PETICIÓN NORMAL
+        return redirect($url);
     }
 
-    // SI NO EXISTE:
-    // Redirigimos a la vista del escáner (suponiendo que tu ruta se llama 'escanear')
-    // con un mensaje de error que Laravel guardará en la sesión.
-    return redirect()->route('escaner')
-                     ->with('error', 'El producto no existe o no se encuentra en el sistema.');
+    // Si no existe
+    if ($request->expectsJson() || $request->ajax()) {
+        return response()->json(['error' => 'No encontrado'], 404);
+    }
+
+    return redirect()->route('escanear')->with('error', 'El producto con EAN ' . $eanLimpio . ' no existe.');
     }
 
     public function show($id)

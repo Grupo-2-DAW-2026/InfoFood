@@ -48,8 +48,19 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Productos creados por el usuario
+     */
     public function productos() 
     {
-    return $this->hasMany(Producto::class);
+        return $this->hasMany(Producto::class);
+    }
+
+    /**
+     * Productos que el usuario ha buscado/escaneado (Historial)
+     */
+    public function historialBusquedas()
+    {
+        return $this->belongsToMany(Producto::class, 'producto_user_historial');
     }
 }

@@ -32,4 +32,9 @@ class Producto extends Model
     {
     return $this->belongsTo(User::class);
     }
+
+    public function usuariosHistorial()
+    {
+    return $this->belongsToMany(User::class, 'producto_user_historial');
+    }
 }
