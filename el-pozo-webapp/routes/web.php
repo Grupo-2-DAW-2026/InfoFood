@@ -27,9 +27,6 @@ Route::get('/catalogo', [ProductoController::class, 'index'])->name('productos.c
 // Búsqueda de producto por EAN (usada por el escáner)
 Route::get('/buscar-producto/{ean}', [ProductoController::class, 'buscarPorEan'])->name('productos.buscar');
 
-// Detalle de un producto específico (se pone al final de las públicas para no chocar)
-Route::get('/productos/{id}', [ProductoController::class, 'show'])->name('productos.show');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -51,10 +48,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     // --- BLOQUE GESTIÓN DE PRODUCTOS ---
+    // IMPORTANTE: Estas rutas fijas deben ir ANTES de cualquier ruta con {id}
     // Formulario para crear un producto nuevo
     Route::get('/productos/nuevoProducto', [ProductoController::class, 'create'])->name('productos.crear');
     // Guardar el nuevo producto en la base de datos
     Route::post('/productos/guardarProducto', [ProductoController::class, 'store'])->name('productos.store');
+    
     // Formulario para editar un producto existente
     Route::get('/productos/{id}/edit', [ProductoController::class, 'edit'])->name('productos.edit');
     // Actualizar los datos del producto
@@ -71,7 +70,18 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| 3. RUTAS DE AUTENTICACIÓN
+| 3. RUTAS CON PARÁMETROS DINÁMICOS (Al final para evitar conflictos)
+|--------------------------------------------------------------------------
+*/
+
+// Detalle de un producto específico 
+// Se coloca aquí para que no "se coma" a /productos/nuevoProducto
+Route::get('/productos/{id}', [ProductoController::class, 'show'])->name('productos.show');
+
+
+/*
+|--------------------------------------------------------------------------
+| 4. RUTAS DE AUTENTICACIÓN
 |--------------------------------------------------------------------------
 */
 // Importamos las rutas de login, registro y contraseñas de Breeze
