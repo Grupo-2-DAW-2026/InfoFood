@@ -80,7 +80,7 @@ Para la detección de productos, InfoFood integra una solución de visión artif
 ---
 
 ## 📜 Nota sobre la Autoría de Commits
-Debido a que el repositorio se creó bajo un **usuario genérico de "Grupo 2 DAW"**, es posible que en el historial de Git los commits aparezcan firmados tanto por el usuario del grupo como por el colaborador individual (contribuidor). 
+Debido a que el repositorio se creó bajo un **usuario genérico de "Grupo-2-DAW-2026"**, es posible que en el historial de Git los commits aparezcan firmados tanto por el usuario del grupo como por el colaborador individual (contribuidor). 
 
 Queremos aclarar que **la autoría real corresponde íntegramente al colaborador/contribuidor** que figura en cada commit. Esta duplicidad visual es un efecto técnico de la configuración del entorno compartido y no afecta a la realidad del trabajo realizado por cada integrante.
 
