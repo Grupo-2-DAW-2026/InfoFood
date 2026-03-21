@@ -9,7 +9,7 @@
 ## 🚀 Funcionalidades Estrella
 * **🔍 Escáner EAN Universal**: Lector de códigos de barras por cámara en tiempo real (vía QuaggaJS) o entrada manual.
 * **📍 Línea de Trazabilidad**: Visualiza el camino de los alimentos con pasos reordenables y dinámicos.
-* **🛡️ Panel de Control (Admin/User)**: Permisos inteligentes. El Admin supervisa todo; el usuario gestiona lo suyo.
+* **🛡️ Panel de Control (Admin/User)**: Permisos inteligentes. El Admin supervisa todo, el usuario gestiona lo suyo.
 * **🧪 Ficha Técnica Completa**: Información nutricional detallada (100g) y detección de alérgenos mediante iconos visuales.
 * **👥 Modo Invitado**: Acceso público al escáner y fichas técnicas sin necesidad de registro.
 * **🧪 Sincronización de Alérgenos**: Sistema inteligente de actualización masiva (Sync) para marcar trazas de forma rápida y visual.
@@ -95,4 +95,4 @@ Queremos aclarar que **la autoría real corresponde íntegramente al colaborador
 
 ---
 
-**Desarrollado con ❤️ por el Grupo 2 DAW - Proyecto InfoFood.**
+**Desarrollado con ❤️ por el Grupo 2 de DAW en 2026 - Proyecto InfoFood.**
