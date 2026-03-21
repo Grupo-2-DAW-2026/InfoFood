@@ -39,7 +39,6 @@ Route::middleware('auth')->group(function () {
     // Perfil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Edición y Borrado
     Route::get('/productos/{id}/edit', [ProductoController::class, 'edit'])->name('productos.edit');
