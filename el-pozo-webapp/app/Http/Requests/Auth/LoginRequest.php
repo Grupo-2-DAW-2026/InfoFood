@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Auth\Events\Lockout;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -13,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class LoginRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determina si el usuario tiene permiso.
      */
     public function authorize(): bool
     {
@@ -21,9 +20,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * Reglas básicas: email válido y contraseña obligatoria.
      */
     public function rules(): array
     {
@@ -34,29 +31,30 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Attempt to authenticate the request's credentials.
-     *
-     * @throws ValidationException
+     * Intenta autenticar al usuario.
      */
     public function authenticate(): void
     {
+        // 1. Mira si el usuario ha fallado demasiadas veces seguidas
         $this->ensureIsNotRateLimited();
 
+        // 2. Intenta hacer el login con el email y el password
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            // Si falla, suma un "punto de fallo" al limitador
             RateLimiter::hit($this->throttleKey());
 
+            // Lanza el error de "Credenciales incorrectas"
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
         }
 
+        // 3. Si entra bien, borra el contador de fallos
         RateLimiter::clear($this->throttleKey());
     }
 
     /**
-     * Ensure the login request is not rate limited.
-     *
-     * @throws ValidationException
+     * Controla que no se pasen de intentos (5 intentos máximo).
      */
     public function ensureIsNotRateLimited(): void
     {
@@ -64,8 +62,8 @@ class LoginRequest extends FormRequest
             return;
         }
 
+        // Si se pasa, bloqueamos el acceso y avisamos
         event(new Lockout($this));
-
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
@@ -77,7 +75,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the rate limiting throttle key for the request.
+     * Genera una clave única por usuario para el limitador de intentos.
      */
     public function throttleKey(): string
     {

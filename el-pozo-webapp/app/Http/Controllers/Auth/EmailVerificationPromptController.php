@@ -9,11 +9,15 @@ use Illuminate\View\View;
 
 class EmailVerificationPromptController extends Controller
 {
-    // Este método enseña la vista de "Por favor, confirma tu email"
+    /**
+     * Muestra la pantalla de aviso de verificación.(NO SE USA)
+     */
     public function __invoke(Request $request): RedirectResponse|View
     {
+        // Si el usuario ya verificó su cuenta, lo mandamos al catálogo directamente
+        // Si no, le enseñamos la vista 'auth.verify-email' para que sepa que tiene que revisar su correo
         return $request->user()->hasVerifiedEmail()
-                    ? redirect()->intended(route('dashboard', absolute: false))
+                    ? redirect()->intended(route('productos.catalogo'))
                     : view('auth.verify-email');
     }
 }

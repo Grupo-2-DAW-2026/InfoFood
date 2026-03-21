@@ -3,18 +3,17 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
-     * Seed the application's database.
+     * Semilla principal de la aplicación.
      */
     public function run(): void
     {
+        // 1. Llamamos al seeder de alérgenos para tener el catálogo listo
         $this->call([
             AlergenosSeeder::class,
         ]);

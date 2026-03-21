@@ -6,24 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('ingredientes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade');
-            $table->string('nombre');
-            $table->timestamps();
-            });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('ingredientes');
+    // Lista completa de ingredientes asociados a un producto
+    Schema::create('ingredientes', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade');
+        $table->text('nombre'); // Usamos text para listas extensas de ingredientes
+        $table->timestamps();
+    });
     }
 };

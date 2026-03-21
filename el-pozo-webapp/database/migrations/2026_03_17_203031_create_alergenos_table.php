@@ -6,24 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('alergenos', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre'); 
-            $table->string('icono')->nullable();
-            $table->timestamps();
-        });
-            }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('alergenos');
+    // Catálogo maestro de alérgenos (Gluten, Lácteos, etc.)
+    Schema::create('alergenos', function (Blueprint $table) {
+        $table->id();
+        $table->string('nombre'); 
+        $table->string('icono')->nullable(); // Nombre del archivo de imagen del icono
+        $table->timestamps();
+    });
     }
 };

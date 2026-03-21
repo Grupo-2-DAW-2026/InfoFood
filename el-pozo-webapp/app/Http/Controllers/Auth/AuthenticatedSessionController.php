@@ -11,35 +11,31 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
+    // Muestra la pantalla de Login
     public function create(): View
     {
         return view('auth.login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
+    // Procesa el intento de entrar a la web
     public function store(LoginRequest $request): RedirectResponse
     {
+        // Comprueba si el email y la clave son correctos
         $request->authenticate();
 
+        // Regenera la sesión para evitar ataques de seguridad
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Te manda al catálogo o a donde intentaras entrar antes
+        return redirect()->intended(route('welcome'));
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
+    // Cierra la sesión (Log out)
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');

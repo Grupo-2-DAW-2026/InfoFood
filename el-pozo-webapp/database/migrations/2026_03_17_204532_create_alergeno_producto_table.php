@@ -6,23 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('alergeno_producto', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade');
-            $table->foreignId('alergeno_id')->constrained('alergenos')->onDelete('cascade');
-            });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('alergeno_producto');
+    // Tabla pivot para relación Muchos a Muchos (un producto puede tener varios alérgenos)
+    Schema::create('alergeno_producto', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade');
+        $table->foreignId('alergeno_id')->constrained('alergenos')->onDelete('cascade');
+    });
     }
 };

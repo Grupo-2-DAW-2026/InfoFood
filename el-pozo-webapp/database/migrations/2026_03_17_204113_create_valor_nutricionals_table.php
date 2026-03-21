@@ -6,30 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('valores_nutricionales', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade');
-            $table->string('kcal');
-            $table->string('grasas_totales');
-            $table->string('grasas_saturadas');
-            $table->string('hidratos');
-            $table->string('azucares');
-            $table->string('proteinas');
-            $table->string('sal');
-            $table->timestamps();
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('valores_nutricionales');
+    // Información detallada por cada 100g/ml
+    Schema::create('valores_nutricionales', function (Blueprint $table) {
+        $table->id();
+        // Vinculación con el producto. Si el producto se borra, sus valores también (cascade)
+        $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade');
+        
+        // Definición numérica: 8 dígitos en total, 2 de ellos decimales
+        $table->decimal('kcal', 8, 2)->default(0);
+        $table->decimal('grasas_totales', 8, 2)->default(0);
+        $table->decimal('grasas_saturadas', 8, 2)->default(0);
+        $table->decimal('hidratos', 8, 2)->default(0);
+        $table->decimal('azucares', 8, 2)->default(0);
+        $table->decimal('proteinas', 8, 2)->default(0);
+        $table->decimal('sal', 8, 2)->default(0);
+        $table->timestamps();
+    });
     }
 };

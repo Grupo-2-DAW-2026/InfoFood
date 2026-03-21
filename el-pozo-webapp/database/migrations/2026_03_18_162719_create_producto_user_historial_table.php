@@ -6,23 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up() {
-        Schema::create('producto_user_historial', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('producto_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function up() 
     {
-        Schema::dropIfExists('producto_user_historial');
+    // Registro de productos consultados por cada usuario (Historial de búsqueda)
+    Schema::create('producto_user_historial', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->foreignId('producto_id')->constrained()->onDelete('cascade');
+        $table->timestamps(); // La fecha de creación actúa como "fecha de escaneo"
+    });
     }
 };

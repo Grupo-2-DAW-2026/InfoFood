@@ -5,49 +5,74 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\TrazabilidadController;
 use Illuminate\Support\Facades\Route;
 
-// 1. RUTAS PÚBLICAS (Home y Escáner)
+/*
+|--------------------------------------------------------------------------
+| 1. RUTAS PÚBLICAS (Accesibles sin iniciar sesión)
+|--------------------------------------------------------------------------
+*/
+
+// Página de inicio del sitio
 Route::get('/', function () {
     return view('welcome');
 })->name("welcome");
 
+// Sección del escáner de códigos de barras
 Route::get('/escaner', function () {
     return view('escaner');
 })->name('escaner');
 
-// 2. RUTAS DE PRODUCTOS (ORDEN CRÍTICO PARA EVITAR 404)
-// Primero las fijas
+// Visualización del catálogo de productos
 Route::get('/catalogo', [ProductoController::class, 'index'])->name('productos.catalogo');
+
+// Búsqueda de producto por EAN (usada por el escáner)
 Route::get('/buscar-producto/{ean}', [ProductoController::class, 'buscarPorEan'])->name('productos.buscar');
 
-// Rutas de creación (Deben ir ANTES que la de {id})
-Route::middleware('auth')->group(function () {
-    Route::get('/productos/nuevoProducto', [ProductoController::class, 'create'])->name('productos.crear');
-    Route::post('/productos/guardarProducto', [ProductoController::class, 'store'])->name('productos.store');
-});
-
-// AHORA SÍ, la ruta con parámetro {id} al final de las de productos
+// Detalle de un producto específico (se pone al final de las públicas para no chocar)
 Route::get('/productos/{id}', [ProductoController::class, 'show'])->name('productos.show');
 
 
-// 3. RESTO DE RUTAS PROTEGIDAS
+/*
+|--------------------------------------------------------------------------
+| 2. RUTAS PROTEGIDAS (Requieren estar Autenticado)
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware('auth')->group(function () {
     
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // Bloque Dashboard: Redirige al panel de control/perfil del usuario
+    Route::get('/dashboard', [ProfileController::class, 'index'])->name('dashboard');
 
-    // Perfil
+    // --- BLOQUE PERFIL DE USUARIO ---
+    // Muestra la tarjeta de perfil personalizada
+    Route::get('/profile/panel', [ProfileController::class, 'index'])->name('profile.index');
+    // Muestra el formulario de edición de datos (Breeze)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Procesa la actualización de los datos del perfil
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    // Edición y Borrado
+    // --- BLOQUE GESTIÓN DE PRODUCTOS ---
+    // Formulario para crear un producto nuevo
+    Route::get('/productos/nuevoProducto', [ProductoController::class, 'create'])->name('productos.crear');
+    // Guardar el nuevo producto en la base de datos
+    Route::post('/productos/guardarProducto', [ProductoController::class, 'store'])->name('productos.store');
+    // Formulario para editar un producto existente
     Route::get('/productos/{id}/edit', [ProductoController::class, 'edit'])->name('productos.edit');
+    // Actualizar los datos del producto
     Route::put('/productos/{id}', [ProductoController::class, 'update'])->name('productos.update');
+    // Eliminar un producto del sistema
     Route::delete('/productos/{id}', [ProductoController::class, 'destroy'])->name('productos.destroy');
 
-    // Trazabilidad
+    // --- BLOQUE TRAZABILIDAD ---
+    // Añadir un nuevo hito a la línea de tiempo del producto
     Route::post('/trazabilidad', [TrazabilidadController::class, 'store'])->name('trazabilidad.store');
+    // Eliminar un paso de la trazabilidad
     Route::delete('/trazabilidad/{id}', [TrazabilidadController::class, 'destroy'])->name('trazabilidad.destroy');
 });
 
+/*
+|--------------------------------------------------------------------------
+| 3. RUTAS DE AUTENTICACIÓN
+|--------------------------------------------------------------------------
+*/
+// Importamos las rutas de login, registro y contraseñas de Breeze
 require __DIR__.'/auth.php';

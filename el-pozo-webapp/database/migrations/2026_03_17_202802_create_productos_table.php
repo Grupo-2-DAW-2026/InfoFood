@@ -6,25 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('productos', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->string('ean_13')->unique();
-            $table->string('imagen_url')->nullable();
-            $table->timestamps();
-        });
-            }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('productos');
+    // Almacena la información básica del producto
+    Schema::create('productos', function (Blueprint $table) {
+        $table->id();
+        $table->string('nombre');
+        $table->string('ean_13')->unique(); // Código de barras estandarizado
+        $table->string('imagen_url')->nullable(); // Ruta o enlace a la fotografía
+        $table->timestamps();
+    });
     }
 };

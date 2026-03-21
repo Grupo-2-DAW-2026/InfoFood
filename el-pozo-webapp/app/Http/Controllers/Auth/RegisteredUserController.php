@@ -10,43 +10,38 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
+    // Muestra el formulario de registro
     public function create(): View
     {
         return view('auth.register');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws ValidationException
-     */
+    // Crea el nuevo usuario en la base de datos
     public function store(Request $request): RedirectResponse
     {
-    $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-        'password' => ['required', 'confirmed', Rules\Password::defaults()],
-    ]);
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
 
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'role' => 'user', // <--- ESTA LÍNEA ES LA QUE FALTA
-    ]);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'user', // Por defecto todos son usuarios normales
+        ]);
 
-    event(new Registered($user));
+        // Dispara el evento de "Usuario Registrado" (para que se envíe el email)
+        event(new Registered($user));
 
-    Auth::login($user);
+        // Lo loguea automáticamente tras registrarse
+        Auth::login($user);
 
-    return redirect(route('dashboard', absolute: false));
+        return redirect(route('productos.catalogo'));
     }
 }
