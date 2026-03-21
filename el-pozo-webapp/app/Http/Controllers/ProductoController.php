@@ -65,17 +65,17 @@ class ProductoController extends Controller
 
     public function index()
     {
-    
     $user = auth()->user();
 
-    // Si no está logueado, redirigir al login con un mensaje informativo
+    // Si no está logueado, redirigir a la welcome con el mensaje de error
     if (!$user) {
         return redirect()->route('welcome')->with('error', 'Debes iniciar sesión para acceder al catálogo.');
     }
+
+    // Lógica original: Si es admin ve todo, si no, ve lo suyo + historial
     if ($user->role == 'admin') {
         $productos = Producto::with(['nutricion', 'alergenos'])->get();
     } else {
-        // Traer mis productos O los que he buscado (historial)
         $productos = Producto::with(['nutricion', 'alergenos'])
             ->where('user_id', $user->id)
             ->orWhereHas('usuariosHistorial', function($q) use ($user) {

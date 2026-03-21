@@ -17,6 +17,7 @@ Route::get('/escaner', function () {
 // Búsqueda por EAN y Ver Ficha (Públicos para invitados)
 Route::get('/buscar-producto/{ean}', [ProductoController::class, 'buscarPorEan'])->name('productos.buscar');
 Route::get('/productos/{id}', [ProductoController::class, 'show'])->name('productos.show');
+Route::get('/catalogo', [ProductoController::class, 'index'])->name('productos.catalogo');
 
 
 // 2. RUTAS PROTEGIDAS (Solo para usuarios logueados)
@@ -27,7 +28,6 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     // Catálogo (lo movemos aquí para que solo lo vean usuarios registrados)
-    Route::get('/catalogo', [ProductoController::class, 'index'])->name('productos.catalogo');
 
     // Perfil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
