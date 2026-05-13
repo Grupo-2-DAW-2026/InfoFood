@@ -12,7 +12,7 @@
         <div class="col-md-10">
             {{-- Encabezado con botón de retorno y título principal de la sección --}}
             <div class="d-flex align-items-center mb-4">
-                <a href="{{ url('/') }}" class="btn btn-outline-danger btn-sm me-3 rounded-pill px-3">← Volver</a>
+                <a href="{{ url('/catalogo') }}" class="btn btn-outline-danger btn-sm me-3 rounded-pill px-3">← Volver</a>
                 <h2 class="fw-bold m-0 text-dark">Nuevo Producto <span class="text-danger">InfoFood</span></h2>
             </div>
 

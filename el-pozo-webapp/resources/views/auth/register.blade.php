@@ -65,4 +65,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Seleccionamos el formulario (asegúrate de que tu etiqueta <form> no tenga un ID distinto)
+    const forms = document.querySelectorAll('form');
+
+    forms.forEach(form => {
+        form.addEventListener('submit', function() {
+            // Buscamos el botón de tipo submit dentro del formulario
+            const button = form.querySelector('button[type="submit"]');
+            
+            if (button) {
+                // Deshabilitamos el botón para evitar que sigan pulsando
+                button.disabled = true;
+                
+                // Cambiamos el contenido del botón
+                button.innerHTML = `
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Cargando...
+                `;
+            }
+        });
+    });
+</script>
+
 @endsection
