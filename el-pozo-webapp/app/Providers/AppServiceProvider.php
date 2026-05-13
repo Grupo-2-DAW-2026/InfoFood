@@ -28,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
         // Así, cuando pongas una fecha en tu trazabilidad, saldrá "Lunes" en vez de "Monday".
         Carbon::setLocale('es');
         setlocale(LC_TIME, 'es_ES.utf8');
+
+        if (config('app.env') === 'production') {
+        \URL::forceScheme('https');
+        }
     }
 }
