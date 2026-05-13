@@ -9,7 +9,7 @@
 ## 🚀 Funcionalidades Estrella
 * **🔍 Escáner EAN Universal**: Lector de códigos de barras por cámara en tiempo real (vía QuaggaJS) o entrada manual.
 * **📍 Línea de Trazabilidad**: Visualiza el camino de los alimentos con pasos reordenables y dinámicos.
-* **🛡️ Panel de Control (Admin/User)**: Permisos inteligentes. El Admin supervisa todo; el usuario gestiona lo suyo.
+* **🛡️ Panel de Control (Admin/User)**: Permisos inteligentes. El Admin supervisa todo, el Usuario gestiona lo suyo.
 * **🧪 Ficha Técnica Completa**: Información nutricional detallada (100g) y detección de alérgenos mediante iconos visuales.
 * **👥 Modo Invitado**: Acceso público al escáner y fichas técnicas sin necesidad de registro.
 * **🧪 Sincronización de Alérgenos**: Sistema inteligente de actualización masiva (Sync) para marcar trazas de forma rápida y visual.
@@ -64,10 +64,10 @@ Sigue estos pasos para poner la máquina en marcha en menos de 2 minutos:
 En **InfoFood**, hemos apostado por un flujo de trabajo optimizado:
 
 * **Lógica de Negocio**: Todas las funciones de gestión de usuarios, relaciones de productos (hasOne/hasMany) y flujo de trazabilidad han sido **razonadas y diseñadas por el equipo**.
-* **Asistencia de IA (Claude & Gemini)**: Hemos utilizado modelos de IA para:
-    * **Bootstrap & UI**: Pulir el diseño visual y asegurar un acabado minimalista y responsive.
-    * **Refactorización**: Ayuda en la definición técnica de funciones complejas y orden de rutas.
-* **Optimización**: Se ha buscado reutilizar código, evitar consultas redundantes (Eager Loading) y mantener un código limpio y totalmente comentado para facilitar su comprensión.
+* **Asistencia de IA (Claude & Gemini)**: Al haber profundizado solo en conceptos básicos durante el curso, hemos utilizado modelos de IA como apoyo fundamental en:
+    * **Bootstrap & UI**: Para lograr un diseño profesional y responsive, ya que los conocimientos de clase eran limitados.
+    * **Lógica Compleja**: Implementación de la librería del escáner y depuración de funciones avanzadas de Laravel.
+* **Optimización**: Se ha buscado reutilizar código, evitar consultas redundantes y mantener un código limpio y totalmente comentado.
 
 ---
 
@@ -76,6 +76,13 @@ Para la detección de productos, InfoFood integra una solución de visión artif
 * **Librería**: `QuaggaJS`.
 * **Capacidades**: Detección de códigos **EAN-13** mediante el acceso a la cámara o webcam.
 * **Fallback**: Sistema de entrada manual integrado para máxima compatibilidad.
+
+---
+
+## 📜 Nota sobre la Autoría de Commits
+Debido a que el repositorio se creó bajo un **usuario genérico de "Grupo-2-DAW-2026"**, es posible que en el historial de Git los commits aparezcan firmados tanto por el usuario del grupo como por el colaborador individual (contribuidor). 
+
+Queremos aclarar que **la autoría real corresponde íntegramente al colaborador/contribuidor** que figura en cada commit. Esta duplicidad visual es un efecto técnico de la configuración del entorno compartido y no afecta a la realidad del trabajo realizado por cada integrante.
 
 ---
 
@@ -88,4 +95,4 @@ Para la detección de productos, InfoFood integra una solución de visión artif
 
 ---
 
-**Desarrollado con ❤️ por el Grupo 2 DAW - Proyecto InfoFood.**
+**Desarrollado con ❤️ por el Grupo 2 de DAW en 2026 - Proyecto InfoFood.**
