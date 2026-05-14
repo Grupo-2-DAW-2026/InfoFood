@@ -13,12 +13,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // 1. Confía en el proxy de Render
         $middleware->trustProxies(at: '*');
-
-        // 2. EXCEPCIÓN DE SEGURIDAD (Esto quita el error 419 en el login)
-        $middleware->validateCsrfTokens(except: [
-            'login',
-            'logout',
-        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
