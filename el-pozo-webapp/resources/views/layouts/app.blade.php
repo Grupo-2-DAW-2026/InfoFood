@@ -24,7 +24,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow-sm">
         <div class="container">
             {{-- Logotipo principal de la aplicación que apunta a la raíz del sitio --}}
-            <a class="navbar-brand" href="{{ url('/') }}">INFOFOOD <strong>BETA</strong></a>
+            <a class="navbar-brand" href="{{ url('/') }}"><strong>INFOFOOD</strong></a>
             
             {{-- Sección derecha de la navegación para la gestión de usuarios --}}
             <div class="ms-auto">
